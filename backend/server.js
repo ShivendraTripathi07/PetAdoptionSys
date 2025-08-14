@@ -7,9 +7,15 @@ const petRoutes = require("./routes/petRoutes");
 const connectDB = require("./db/db");
 const app = express();
 app.use(express.json());
-app.use(cors());
-app.use(cookieParser());
 
+app.use(cookieParser());
+app.use(
+  cors({
+   
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use("/user", userRoutes);
 app.use("/pets", petRoutes);
 
