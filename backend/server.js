@@ -6,6 +6,7 @@ const userRoutes = require("./routes/userRoutes");
 const petRoutes = require("./routes/petRoutes");
 const connectDB = require("./db/db");
 const app = express();
+app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
@@ -15,6 +16,6 @@ app.use("/pets", petRoutes);
 connectDB().then(() => {
   app.listen(8000, () => {
     console.log("Connected to the database successfully");
-    console.log("Hello from the server");
+    console.log("Hello from the server on port 8000");
   });
 });

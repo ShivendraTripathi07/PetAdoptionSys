@@ -11,6 +11,8 @@ const PetSchema = new mongoose.Schema(
     vaccinated: { type: Boolean, default: false },
     baseFee: { type: Number, min: 0, required: true },
     discountPercent: { type: Number, min: 0, max: 100, default: 0 },
+
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }
 );
