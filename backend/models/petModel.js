@@ -5,14 +5,15 @@ const PetSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     species: {
       type: String,
-      enum: ["Dog", "Cat", "Bird", "Other"],
+      enum: ["Dog", "Cat", "Bird", "cow", "Other"],
       required: true,
     },
+    images: [],
     vaccinated: { type: Boolean, default: false },
     baseFee: { type: Number, min: 0, required: true },
     discountPercent: { type: Number, min: 0, max: 100, default: 0 },
 
-    owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   },
   { timestamps: true }
 );
