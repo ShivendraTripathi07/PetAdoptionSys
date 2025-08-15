@@ -28,7 +28,7 @@ exports.getAllPets = async (req, res) => {
       .sort(sortOption)
       .skip((page - 1) * limit)
       .limit(limit)
-      .lean({ virtuals: true }); // includes adoptionFeeFinal
+      .lean({ virtuals: true });
 
     res.json({
       items: pets,
