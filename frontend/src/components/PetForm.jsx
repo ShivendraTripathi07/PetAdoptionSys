@@ -11,13 +11,13 @@ export default function PetForm({ onPetAdded }) {
     vaccinated: false,
     baseFee: "",
     discountPercent: "",
-    image: null,
+    images: [], // store multiple images
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     if (type === "file") {
-      setFormData({ ...formData, image: files[0] });
+      setFormData({ ...formData, images: Array.from(files) }); // store all selected files
     } else if (type === "checkbox") {
       setFormData({ ...formData, [name]: checked });
     } else {
@@ -28,10 +28,11 @@ export default function PetForm({ onPetAdded }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let uploadedUrl = null;
-      if (formData.image) {
-        const res = await uploadImage(formData.image);
-        uploadedUrl = res.secure_url;
+      let uploadedUrls = [];
+      if (formData.images.length > 0) {
+        const uploadPromises = formData.images.map((file) => uploadImage(file));
+        const uploadResults = await Promise.all(uploadPromises);
+        uploadedUrls = uploadResults.map((res) => res.secure_url);
       }
 
       const petData = {
@@ -40,19 +41,20 @@ export default function PetForm({ onPetAdded }) {
         vaccinated: formData.vaccinated,
         baseFee: Number(formData.baseFee),
         discountPercent: Number(formData.discountPercent) || 0,
-        images: uploadedUrl ? [uploadedUrl] : [],
+        images: uploadedUrls, // store multiple URLs
       };
 
       await axiosInstance.post(Api.postPet.url, petData);
       toast.success("Pet added successfully!");
-      onPetAdded(); // refresh pet list
+      onPetAdded();
+
       setFormData({
         name: "",
         species: "Dog",
         vaccinated: false,
         baseFee: "",
         discountPercent: "",
-        image: null,
+        images: [],
       });
     } catch (err) {
       toast.error(err.response?.data?.message || "Error adding pet");
@@ -121,6 +123,7 @@ export default function PetForm({ onPetAdded }) {
       <input
         type="file"
         accept="image/*"
+        multiple // allow multiple file selection
         onChange={handleChange}
         className="mb-3"
       />
