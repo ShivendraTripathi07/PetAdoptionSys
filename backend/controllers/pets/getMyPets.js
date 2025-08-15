@@ -5,7 +5,6 @@ const getMyPets = async (req, res) => {
   try {
     console.log("User ID from token:", req.userId);
 
-    // Validate user ID exists
     if (!req.userId) {
       return res.status(401).json({
         message: "User not authenticated",
@@ -14,7 +13,6 @@ const getMyPets = async (req, res) => {
       });
     }
 
-    // Find user (without password)
     const user = await User.findById(req.userId).select("-password");
     if (!user) {
       return res.status(404).json({
@@ -24,14 +22,12 @@ const getMyPets = async (req, res) => {
       });
     }
 
-    // Find all pets owned by this user
     const pets = await Pets.find({ owner: req.userId })
-      .populate("owner", "name email") // Optional: populate owner info
-      .sort({ createdAt: -1 }); // Sort by newest first
+      .populate("owner", "name email")
+      .sort({ createdAt: -1 });
 
     console.log(`Found ${pets.length} pets for user ${user.name}`);
 
-    // Return both user and pets data (matching your response pattern)
     res.status(200).json({
       data: { user, pets },
       error: false,
@@ -41,7 +37,6 @@ const getMyPets = async (req, res) => {
   } catch (error) {
     console.error("Error in getMyPets:", error);
 
-    // Handle specific mongoose errors
     if (error.name === "CastError") {
       return res.status(400).json({
         message: "Invalid user ID format",
@@ -51,7 +46,6 @@ const getMyPets = async (req, res) => {
       });
     }
 
-    // Generic server error
     res.status(500).json({
       message: error.message || "Server error while fetching pets",
       error: true,

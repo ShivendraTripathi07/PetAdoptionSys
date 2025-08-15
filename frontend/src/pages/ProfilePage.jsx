@@ -175,7 +175,9 @@ export default function ProfilePage() {
                       {pet.discountPercent > 0 ? (
                         <div className="flex items-center gap-2">
                           <span className="text-lg font-bold text-green-600">
-                            ₹{pet.adoptionFeeFinal}
+                            ₹
+                            {pet.baseFee -
+                              (pet.baseFee * pet.discountPercent) / 100}
                           </span>
                           <span className="text-sm text-gray-500 line-through">
                             ₹{pet.baseFee}
@@ -183,7 +185,7 @@ export default function ProfilePage() {
                         </div>
                       ) : (
                         <span className="text-lg font-bold text-green-600">
-                          ₹{pet.adoptionFeeFinal}
+                          ₹{pet.baseFee}
                         </span>
                       )}
                     </div>
@@ -203,16 +205,6 @@ export default function ProfilePage() {
                       </svg>
                       Posted {new Date(pet.createdAt).toLocaleDateString()}
                     </p>
-
-                    {/* Action Buttons */}
-                    <div className="flex gap-2 mt-4">
-                      <button className="flex-1 bg-blue-50 text-blue-600 py-2 px-3 rounded-lg text-sm font-semibold hover:bg-blue-100 transition-colors">
-                        Edit
-                      </button>
-                      <button className="flex-1 bg-red-50 text-red-600 py-2 px-3 rounded-lg text-sm font-semibold hover:bg-red-100 transition-colors">
-                        Delete
-                      </button>
-                    </div>
                   </div>
                 </div>
               ))}
