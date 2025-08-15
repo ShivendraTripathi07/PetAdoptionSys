@@ -1,4 +1,4 @@
-// src/pages/Login.jsx
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -15,7 +15,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) =>
-    setForm({ ...form, [e.target.type]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,8 +23,9 @@ export default function Login() {
 
     try {
       const res = await axiosInstance.post(Api.login.url, form);
+      console.log(res.data.data.user);
       toast.success("Login successful!");
-      login(res.data.user);
+      login(res.data.data.user);
       navigate("/pets");
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
@@ -42,6 +43,7 @@ export default function Login() {
         <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
         <Input
           label="Email"
+          name="email"
           type="email"
           value={form.email}
           onChange={handleChange}
@@ -49,6 +51,7 @@ export default function Login() {
         />
         <Input
           label="Password"
+          name="password"
           type="password"
           value={form.password}
           onChange={handleChange}

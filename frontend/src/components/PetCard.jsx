@@ -72,7 +72,8 @@ export default function PetCard({ pet, onDeleted }) {
           )}
 
           <p className="text-blue-600 font-semibold">
-            Final Fee: ₹{pet.adoptionFeeFinal}
+            Final Fee: ₹
+            {pet.baseFee - (pet.baseFee * pet.discountPercent) / 100}
           </p>
 
           <div className="flex items-center justify-between mt-2">

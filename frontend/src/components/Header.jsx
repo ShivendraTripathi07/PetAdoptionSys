@@ -5,14 +5,16 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const [showLogout, setShowLogout] = useState(false);
+  const { user, logout } = useAuth();
   console.log(user);
+  const navigate = useNavigate();
 
-  // const handleLogout = () => {
-  //   logout();
-  //   navigate("/");
-  // };
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+    setShowLogout(false);
+  };
 
   return (
     <header className="bg-blue-600 text-white shadow-md">
@@ -24,15 +26,30 @@ export default function Header() {
 
         <nav className="hidden md:flex gap-6 items-center">
           {user ? (
-            <>
-              <span>Welcome, {user.name}</span>
-              {/* <button
-                onClick={handleLogout}
-                className="flex items-center gap-1 bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+            <div className="relative">
+              <span
+                className="cursor-pointer hover:text-blue-200 transition-colors"
+                onMouseEnter={() => setShowLogout(true)}
+                onMouseLeave={() => setShowLogout(false)}
               >
-                <LogOut size={14} /> Logout
-              </button> */}
-            </>
+                Welcome, {user.name}
+              </span>
+
+              {showLogout && (
+                <div
+                  className="absolute top-full right-0 mt-0 bg-red-500 hover:bg-red-600 px-3 py-2 rounded shadow-lg whitespace-nowrap transition-colors"
+                  onMouseEnter={() => setShowLogout(true)}
+                  onMouseLeave={() => setShowLogout(false)}
+                >
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-1 text-white"
+                  >
+                    <LogOut size={18} /> Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <>
               <Link to="/" className="hover:text-blue-200">
@@ -55,16 +72,16 @@ export default function Header() {
           {user ? (
             <>
               <span className="block py-2">Welcome, {user.name}</span>
-              {/* <button
+              <button
                 onClick={handleLogout}
-                className="block w-full text-left py-2 hover:text-blue-200"
+                className="flex items-center gap-1 py-2 hover:text-blue-200 transition-colors"
               >
-                Logout
-              </button> */}
+                <LogOut size={14} /> Logout
+              </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="block py-2 hover:text-blue-200">
+              <Link to="/" className="block py-2 hover:text-blue-200">
                 Login
               </Link>
               <Link to="/signup" className="block py-2 hover:text-blue-200">
