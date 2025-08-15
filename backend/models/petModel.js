@@ -24,5 +24,8 @@ PetSchema.virtual("adoptionFeeFinal").get(function () {
   );
 });
 
+PetSchema.set("toJSON", { virtuals: true });
+PetSchema.set("toObject", { virtuals: true });
+
 const Pets = mongoose.model("Pets", PetSchema);
 module.exports = Pets;

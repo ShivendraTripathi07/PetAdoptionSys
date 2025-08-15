@@ -1,27 +1,11 @@
-const express = require("express");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-require("dotenv").config();
-const userRoutes = require("./routes/userRoutes");
-const petRoutes = require("./routes/petRoutes");
+const app = require("./app");
 const connectDB = require("./db/db");
-const app = express();
-app.use(express.json());
 
-app.use(cookieParser());
-app.use(
-  cors({
-   
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-app.use("/user", userRoutes);
-app.use("/pets", petRoutes);
-
-connectDB().then(() => {
-  app.listen(8000, () => {
-    console.log("Connected to the database successfully");
-    console.log("Hello from the server on port 8000");
+if (process.env.NODE_ENV !== "test") {
+  connectDB().then(() => {
+    app.listen(8000, () => {
+      console.log("Connected to the database successfully");
+      console.log("Hello from the server on port 8000");
+    });
   });
-});
+}
