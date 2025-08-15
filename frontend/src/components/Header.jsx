@@ -34,6 +34,9 @@ export default function Header() {
               >
                 Welcome, {user.name}
               </span>
+              <Link to="/profile" className="hover:text-blue-200">
+                Profile
+              </Link>
 
               {showLogout && (
                 <div

@@ -37,6 +37,10 @@ const Api = {
     url: `${domain}/pets/:id`,
     method: "delete",
   },
+  getMyPets: {
+    url: `${domain}/pets/my`,
+    method: "get",
+  },
 };
 
 export default Api;
