@@ -1,15 +1,20 @@
-import { PawPrint, Syringe, Eye } from "lucide-react";
-import { Link } from "react-router-dom";
-import axiosInstance from "../common/axiosInstance";
+import { useNavigate } from "react-router-dom";
+import { Trash2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import Api from "../common";
+import axiosInstance from "../common/axiosInstance";
+import Api from "../common/index";
 import toast from "react-hot-toast";
 
 export default function PetCard({ pet, onDeleted }) {
+  const navigate = useNavigate();
   const { user } = useAuth();
 
-  const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this pet?")) return;
+  const isOwner = user && pet.owner?._id === user._id;
+
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    if (!window.confirm(`Are you sure you want to delete ${pet.name}?`)) return;
+
     try {
       await axiosInstance.delete(Api.deletePet.url.replace(":id", pet._id));
       toast.success("Pet deleted successfully!");
@@ -19,47 +24,78 @@ export default function PetCard({ pet, onDeleted }) {
     }
   };
 
-  const isOwner = user && pet.owner?._id === user._id;
-  const finalFee = pet.baseFee - (pet.discountPercent * pet.baseFee) / 100;
+  const handleCardClick = () => {
+    navigate(`/pets/${pet._id}`);
+  };
+
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center border hover:shadow-lg transition">
-      {pet.images && pet.images.length > 0 ? (
+    <div
+      className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow relative group"
+      onClick={handleCardClick}
+    >
+      {
+        <button
+          onClick={handleDelete}
+          className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full hover:bg-red-600 hover:scale-110 transition-all z-10 shadow-md opacity-80 group-hover:opacity-100"
+          title="Delete Pet"
+        >
+          <Trash2 size={16} />
+        </button>
+      }
+
+      {pet.images?.[0] ? (
         <img
           src={pet.images[0]}
           alt={pet.name}
-          className="w-40 h-40 object-cover rounded-md"
+          className="w-full h-48 object-cover"
         />
       ) : (
-        <div className="w-40 h-40 bg-gray-200 flex items-center justify-center text-gray-400">
-          <PawPrint size={40} />
+        <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+          <span className="text-gray-400 text-4xl">🐾</span>
         </div>
       )}
-      <h2 className="mt-3 font-semibold text-lg">{pet.name}</h2>
-      <p className="text-gray-500">{pet.species}</p>
-      <p className="text-green-600 font-medium">₹{pet.adoptionFeeFinal}</p>
-      <div className="flex items-center mt-2 gap-1">
-        <Syringe size={16} />
-        <span className={pet.vaccinated ? "text-green-500" : "text-red-500"}>
-          {pet.vaccinated ? "Vaccinated" : "Not Vaccinated"}
-        </span>
-      </div>
 
-      <div className="flex gap-2 mt-4">
-        <Link
-          to={`/pets/${pet._id}`}
-          className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
-        >
-          <Eye size={14} /> View
-        </Link>
+      <div className="p-4">
+        <h3 className="text-lg font-semibold text-gray-800 mb-1">{pet.name}</h3>
+        <p className="text-gray-600 text-sm mb-2">{pet.species}</p>
 
-        {isOwner && (
-          <button
-            onClick={handleDelete}
-            className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
-          >
-            <Trash2 size={14} /> Delete
-          </button>
-        )}
+        <div className="space-y-1 text-sm">
+          <p className="text-gray-600">
+            Base Fee: <span className="font-medium">₹{pet.baseFee}</span>
+          </p>
+
+          {pet.discountPercent > 0 && (
+            <p className="text-green-600">
+              Discount:{" "}
+              <span className="font-medium">{pet.discountPercent}%</span>
+            </p>
+          )}
+
+          <p className="text-blue-600 font-semibold">
+            Final Fee: ₹{pet.adoptionFeeFinal}
+          </p>
+
+          <div className="flex items-center justify-between mt-2">
+            <span
+              className={`px-2 py-1 rounded-full text-xs ${
+                pet.vaccinated
+                  ? "bg-green-100 text-green-800"
+                  : "bg-yellow-100 text-yellow-800"
+              }`}
+            >
+              {pet.vaccinated ? "Vaccinated" : "Not Vaccinated"}
+            </span>
+
+            {pet.owner && (
+              <span
+                className="text-xs text-gray-500 truncate max-w-24"
+                title={pet.owner.name}
+              >
+                by {pet.owner.name}
+              </span>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

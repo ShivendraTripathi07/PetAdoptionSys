@@ -17,7 +17,7 @@ export default function Header() {
   return (
     <header className="bg-blue-600 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/pets" className="flex items-center gap-2">
           <PawPrint className="w-6 h-6" />
           <span className="font-bold text-lg">Pet Adoption System</span>
         </Link>
