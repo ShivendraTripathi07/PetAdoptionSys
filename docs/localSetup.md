@@ -1,84 +1,124 @@
-🐾 Pet Adoption System — Local Setup Guide
-This guide provides step-by-step instructions for setting up the Pet Adoption System on your local machine for development and testing. Follow these steps to ensure a smooth setup process.
+# 🐾 Pet Adoption System — Local Setup Guide
 
-📋 Prerequisites
-Before you begin, ensure you have the following installed:
+![Node.js](https://img.shields.io/badge/Node.js-v20+-green?logo=node.js)
+![npm](https://img.shields.io/badge/npm-v8+-red?logo=npm)
+![React](https://img.shields.io/badge/React-frontend-blue?logo=react)
+![MongoDB](https://img.shields.io/badge/MongoDB-database-green?logo=mongodb)
 
-Node.js (v20 or higher)
-npm (v8 or higher)
-MongoDB (local instance or MongoDB Atlas account)
-Git (for cloning the repository)
+![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)
 
-1️⃣ Clone the Repository
-Clone the project repository to your local machine and navigate to the project directory.
+---
+
+This guide provides step-by-step instructions for setting up the **Pet Adoption System** on your local machine for development and testing. Follow these steps to ensure a smooth setup process.
+
+---
+
+## 📋 Prerequisites
+
+Before you begin, ensure that the following are installed:
+
+- [Node.js](https://nodejs.org/) (**v20 or higher**)
+- [npm](https://www.npmjs.com/) (**v8 or higher**)
+- [MongoDB](https://www.mongodb.com/) (local instance **or** MongoDB Atlas account)
+- [Git](https://git-scm.com/) (for cloning the repository)
+
+---
+
+## 1️⃣ Clone the Repository
+
 git clone https://github.com/yourusername/pet-adoption-system.git
 cd pet-adoption-system
 
-2️⃣ Install Dependencies
-The project consists of a backend (Node.js) and a frontend (React). Install dependencies for both.
-Backend
-Navigate to the server directory and install the required Node.js packages.
+---
+
+## 2️⃣ Install Dependencies
+
+This project consists of a **backend (Node.js)** and a **frontend (React)**. Install dependencies for both.
+
+### 🔹 Backend
+
 cd backend
 npm install
 
-Frontend
-Navigate to the client directory and install the required React dependencies.
+### 🔹 Frontend
+
 cd ../frontend
 npm install
 
-3️⃣ Configure Environment Variables
-Create two environment files in the /server directory to configure the backend for development and testing.
-.env (Development)
-Create a .env file with the following content:
+---
+
+## 3️⃣ Configure Environment Variables
+
+Create two environment files inside the `/backend` directory.
+
+### 🔹 `.env` (Development)
+
 MONGO_URI=mongodb://127.0.0.1:27017/pet_adoption_system
 JWT_SECRET=your_secure_jwt_secret
 NODE_ENV=development
 
-.env.test (Testing)
-Create a .env.test file for running tests:
+### 🔹 `.env.test` (Testing)
+
 MONGO_URI=mongodb://127.0.0.1:27017/pet_adoption_system_test
 JWT_SECRET=test_jwt_secret
 NODE_ENV=test
 
-💡 Environment Notes
+#### 💡 Notes:
 
-MONGO_URI: Replace with your local MongoDB instance or MongoDB Atlas URI.
-JWT_SECRET: Use a strong, random string for security (e.g., generated via a password manager).
-NODE_ENV=test: Ensures Jest uses the test database during testing.
+- **MONGO_URI:** Replace with your local MongoDB instance or MongoDB Atlas URI.
+- **JWT_SECRET:** Use a strong, random string (recommended: generated via a password manager).
+- **NODE_ENV=test:** Ensures Jest uses the test database when running tests.
 
-4️⃣ Run the Application
-Start the backend and frontend servers in separate terminal sessions.
-Start Backend
-In the backenddirectory, run:
+---
+
+## 4️⃣ Run the Application
+
+Run backend and frontend in **separate terminal sessions**.
+
+### 🔹 Start Backend
+
+cd backend
 npm start
 
-The backend will be available at:🌐 http://localhost:8000
-Start Frontend
-In the frontenddirectory, run:
+Backend will be available at: [**http://localhost:8000**](http://localhost:8000)
+
+### 🔹 Start Frontend
+
+cd frontend
 npm run dev
 
-The frontend will be available at:🌐 http://localhost:5173
+Frontend will be available at: [**http://localhost:5173**](http://localhost:5173)
 
-5️⃣ Run Tests
-The backend uses Jest and Supertest for integration testing. Tests are configured to use the .env.test file and a separate test database.
-Run tests from the backenddirectory:
+---
+
+## 5️⃣ Run Tests
+
+The backend uses **Jest** + **Supertest** for integration testing.
+
+Run tests from the **backend** directory:
+
 npm test
 
-Test Notes
+#### 📝 Test Notes:
 
-Tests automatically use the .env.test configuration.
-The test database (pet_adoption_system_test) is wiped between test runs to ensure a clean state.
-Ensure MongoDB is running before executing tests.
+- Tests automatically use the `.env.test` configuration.
+- The test database (`pet_adoption_system_test`) is **wiped clean between runs**.
+- Ensure **MongoDB is running** before executing tests.
 
-6️⃣ Project Structure
-Understand the directory layout to navigate the project efficiently.
+---
+
+## 6️⃣ Project Structure
+
 pet-adoption-system/
-├── client/ # React frontend (UI components, pages, and assets)
-└── server/ # Node.js backend (API routes, models, and controllers)
+├── frontend/ # React frontend (UI components, pages, and assets)
+└── backend/ # Node.js backend (API routes, models, and controllers)
 
-7️⃣ CORS Configuration
-To enable communication between the frontend and backend during local development, ensure CORS is configured correctly.
-In server/server.js, verify or update the CORS settings:
+---
+
+## 7️⃣ CORS Configuration
+
+To allow the frontend and backend to communicate locally, configure **CORS** in `backend/app.js`.
+
 const cors = require('cors');
 
 app.use(cors({
@@ -86,14 +126,20 @@ origin: 'http://localhost:5173',
 credentials: true,
 }));
 
-CORS Notes
+#### 📝 CORS Notes:
 
-Ensure the origin matches the frontend URL (http://localhost:5173).
-If you change the frontend port, update the CORS origin accordingly.
+- Ensure the `origin` matches your frontend URL (`http://localhost:5173`).
+- If you change the frontend port, update the CORS origin accordingly.
 
-🛠 Troubleshooting
+---
 
-MongoDB Connection Issues: Ensure MongoDB is running locally or use a valid MongoDB Atlas URI.
-CORS Errors: Verify the CORS origin in backend.js matches the frontend URL.
-Port Conflicts: If port 8000 or 5173 is in use, change the port in the respective .env file or stop conflicting processes.
-Dependency Issues: Run npm install again or delete node_modules and package-lock.json, then reinstall.
+## 🛠 Troubleshooting
+
+- **❌ MongoDB Connection Issues** → Ensure MongoDB is running locally or use a valid MongoDB Atlas URI.
+- **⚠️ CORS Errors** → Verify that the CORS `origin` matches the frontend URL.
+- **🔌 Port Conflicts** → If port `8000` (backend) or `5173` (frontend) is in use, change it in respective `.env` configs or stop conflicting processes.
+- **📦 Dependency Issues** → Run `npm install` again, or delete `node_modules` + `package-lock.json`, then reinstall.
+
+---
+
+✨ You’re now ready to run and contribute to the **Pet Adoption System** locally!

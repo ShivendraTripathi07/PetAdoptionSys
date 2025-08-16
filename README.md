@@ -9,6 +9,10 @@ Authentication is powered by **JWT tokens stored in HttpOnly cookies** for enhan
 
 [Site Live Link](https://petadoptionsys-1.onrender.com)
 
+## Docs
+
+**See All Documents under the docs folder of this project - API Doc, AI Doc, commits, architecture and local setup Doc.**
+
 ---
 
 ## 📜 Features
@@ -23,75 +27,16 @@ Authentication is powered by **JWT tokens stored in HttpOnly cookies** for enhan
 
 ---
 
-## ⚙ Local Setup
+🎮 How It Works
+**Sign Up/Login** – Create your personal account
+**Post Your Pets** – Add pets as they will be visible to all other users
+**See Your Profile** –  View Your profile and See your posted pets details
+**Update/Delete** – Update or delete any if wanted
+**Stay Motivated** – Filter, search & focus on goals
 
-### 1️⃣ Clone the repository
-
-```bash
-git clone https://github.com/yourusername/pet-adoption-system.git
-cd pet-adoption-system
-2️⃣ Setup Backend
-bash
-Copy
-Edit
-cd server
-npm install
-Create a .env file inside /server:
-
-env
-Copy
-Edit
-MONGODB_URI=mongodb://127.0.0.1:27017/pet_adoption_system
-JWT_SECRET=your_jwt_secret
-NODE_ENV=development
-Run backend:
-
-bash
-Copy
-Edit
-npm start
-3️⃣ Setup Frontend
-bash
-Copy
-Edit
-cd ../client
-npm install
-Create a .env file inside /client:
-
-env
-Copy
-Edit
-VITE_API_BASE_URL=http://localhost:8000
-Run frontend:
-
-bash
-Copy
-Edit
-npm run dev
-4️⃣ Access the Application
-Frontend: http://localhost:5173
-
-Backend API: http://localhost:8000
-
-🛠 Tech Stack
-Frontend: React, Tailwind CSS, Axios, lucide-react, react-hot-toast
-
-Backend: Node.js, Express.js, MongoDB, Mongoose, JWT, Bcrypt
-
-Testing: Jest, Supertest, mongodb-memory-server
-
-📄 Documentation Files
-Document	Description
-commit.md	All commits with explanations
-architecture.md	System architecture with diagrams & models
-api.md	API endpoints documentation
-ai.md	AI conversation & generated suggestions
-local-setup.md	Detailed local environment setup guide
-
-🚀 Run Tests
-bash
-Copy
-Edit
-cd server
-npm test
-```
+![ScreenShots](./docs/assets/page1.png)
+![ScreenShots](./docs/assets/page2.png)
+![ScreenShots](./docs/assets/page3.png)
+![ScreenShots](./docs/assets/page4.png)
+![ScreenShots](./docs/assets/page5.png)
+![ScreenShots](./docs/assets/page6.png)
