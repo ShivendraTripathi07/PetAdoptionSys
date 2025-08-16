@@ -8,6 +8,7 @@ Authentication is powered by **JWT tokens stored in HttpOnly cookies** for enhan
 ## 🔗 Live Demo
 
 [Site Live Link](https://petadoptionsys-1.onrender.com)
+[Video Link](https://youtu.be/jt8dQUKOHks)
 
 ## Docs
 
